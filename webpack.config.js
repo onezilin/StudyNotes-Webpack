@@ -8,7 +8,9 @@ module.exports = {
     // 输出路径为当前项目根目录下的 dist 文件夹
     path: path.resolve(__dirname, 'dist'),
     // 输出文件名为 main.js
-    filename: 'main.js'
+    filename: 'static/js/main.js',
+    // 每次打包前清空 path 目录
+    clean: true 
   },
   // 加载器
   module: {
@@ -47,6 +49,10 @@ module.exports = {
           dataUrlCondition: {
             maxSize: 4 * 1024 // 小于 4kb 的图片才会转为 base64 编码
           }
+        },
+        // 设置图片的输出路径及名称
+        generator: {
+          filename: 'static/images/[hash:10][ext][query]'
         }
       }
     ]
