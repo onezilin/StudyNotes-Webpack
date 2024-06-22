@@ -88,5 +88,12 @@ module.exports = {
     })
   ],
   // 模式
-  mode: 'development'
+  mode: 'development',
+  // 开发服务器配置，开启后没有 dist 文件夹，而是实时编译打包
+  devServer: {
+    host: 'localhost',
+    port: 3000,
+    open: true, // 自动打开浏览器
+    hot: true, // 开启热更新
+  }
 }
