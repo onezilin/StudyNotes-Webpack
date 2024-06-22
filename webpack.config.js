@@ -43,8 +43,8 @@ module.exports = {
       },
       // 将匹配的资源转化为 base64 编码，并内联到 js 文件中
       {
-        test: /\.(png|jpe?g|gif|webp|svg)$/,
-        type: 'asset',
+        test: /\.(png|jpe?g|gif|webp|svg)$/i,
+        type: 'asset', // 指定资源类型为 asset/inline，将资源内联到 js 文件中
         parser: {
           dataUrlCondition: {
             maxSize: 4 * 1024 // 小于 4kb 的图片才会转为 base64 编码
@@ -53,6 +53,13 @@ module.exports = {
         // 设置图片的输出路径及名称
         generator: {
           filename: 'static/images/[hash:10][ext][query]'
+        }
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource', // 指定资源类型为 asset/resource，将资源复制到输出目录
+        generator: {
+          filename: 'static/fonts/[hash:10][ext][query]'
         }
       }
     ]
