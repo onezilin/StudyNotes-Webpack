@@ -4,7 +4,10 @@
   "description": "Webpack Demo",
   "main": "./src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config ./config/webpack.prod.js",
+    "dev": "webpack serve --config ./config/webpack.dev.js",
+    "start": "npm run dev"
   },
   "author": "",
   "license": "ISC",

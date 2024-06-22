@@ -1,3 +1,10 @@
+/*
+ * @Author: wanzilin
+ * @Date: 2024-06-22 17:52:20
+ * @LastEditors: wanzilin
+ * @LastEditTime: 2024-06-23 00:12:35
+ * @FilePath: \StudyNotes-Webpack\config\webpack.prod.js
+ */
 const path = require("path")
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -8,7 +15,7 @@ module.exports = {
   // 出口
   output: {
     // 输出路径为当前项目根目录下的 dist 文件夹
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     // 输出文件名为 main.js
     filename: 'static/js/main.js',
     // 每次打包前清空 path 目录
@@ -81,19 +88,20 @@ module.exports = {
   // 插件
   plugins: [
     // 开启 eslint 校验，检查 src 目录下的文件
-    new ESLintPlugin({ context: path.resolve(__dirname, 'src') }),
+    new ESLintPlugin({ context: path.resolve(__dirname, '../src') }),
     // 自动生成 index.html 文件，并自动引入打包后的 js 文件，并将 css 文件内联到 head 标签中
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public/index.html'), // 指定模板文件路径
+      template: path.resolve(__dirname, '../public/index.html'), // 指定模板文件路径
     })
   ],
   // 模式
-  mode: 'development',
+  mode: 'production',
   // 开发服务器配置，开启后没有 dist 文件夹，而是实时编译打包
-  devServer: {
-    host: 'localhost',
-    port: 3000,
-    open: true, // 自动打开浏览器
-    hot: true, // 开启热更新
-  }
+  // 生产模式下不需要 devServer
+  // devServer: {
+  //   host: 'localhost',
+  //   port: 3000,
+  //   open: true, // 自动打开浏览器
+  //   hot: true, // 开启热更新
+  // }
 }
