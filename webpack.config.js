@@ -62,7 +62,19 @@ module.exports = {
         generator: {
           filename: 'static/fonts/[hash:10][ext][query]'
         }
-      }
+      },
+      // 引入 babel-loader 进行 js 转化
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/, // 排除 node_modules 和 bower_components 目录
+        use: {
+          loader: 'babel-loader',
+          // 不建议在这里配置，而是使用 .babelrc 配置文件统一配置
+          // options: {
+          //   presets: ['@babel/preset-env'],
+          // },
+        },
+      },
     ]
   },
   // 插件
