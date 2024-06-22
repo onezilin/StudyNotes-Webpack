@@ -39,6 +39,16 @@ module.exports = {
             'sass-loader',
         ],
       },
+      // 将匹配的资源转化为 base64 编码，并内联到 js 文件中
+      {
+        test: /\.(png|jpe?g|gif|webp|svg)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 4 * 1024 // 小于 4kb 的图片才会转为 base64 编码
+          }
+        }
+      }
     ]
   },
   // 插件

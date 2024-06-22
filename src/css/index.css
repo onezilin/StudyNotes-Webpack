@@ -3,3 +3,21 @@
   height: 100px;
   background-color: red;
 }
+
+.image1 {
+  width: 100px;
+  height: 100px;
+  background-image: url('../images/图片1.jpg');
+}
+
+.image2 {
+  width: 100px;
+  height: 100px;
+  background-image: url('../images/图片2.jpg');
+}
+
+.image3 {
+  width: 100px;
+  height: 100px;
+  background-image: url('../images/图片3.png');
+}
