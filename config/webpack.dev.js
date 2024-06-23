@@ -38,7 +38,11 @@ module.exports = {
     // 开发环境下，webpack 会将打包后的文件输出到内存中，不会生成实际的文件，所以这里设置为 undefined
     path: undefined,
     // 输出文件名为 main.js
-    filename: 'static/js/main.js',
+    filename: 'static/js/[name].js',
+    // 添加 splitChunks 配置时，其他 bundle 的输出路径为 static/js/[name].js
+    chunkFilename: 'static/js/[name].chunk.js',
+    // 图片、字体等通过 asset 模块加载的资源，统一在这里配置输出路径
+    assetModuleFilename: 'static/media/[hash:10][ext][query]', 
     // 每次打包前清空 path 目录
     clean: true
   },
@@ -71,16 +75,18 @@ module.exports = {
               }
             },
             // 设置图片的输出路径及名称
-            generator: {
-              filename: 'static/images/[hash:10][ext][query]'
-            }
+            // 不在这里配置了，由 output.assetModuleFilename 统一配置
+            // generator: {
+            //   filename: 'static/images/[hash:10][ext][query]'
+            // }
           },
           {
             test: /\.(woff|woff2|eot|ttf|otf)$/i,
             type: 'asset/resource', // 指定资源类型为 asset/resource，将资源复制到输出目录
-            generator: {
-              filename: 'static/fonts/[hash:10][ext][query]'
-            }
+            // 不在这里配置了，由 output.assetModuleFilename 统一配置
+            // generator: {
+            //   filename: 'static/images/[hash:10][ext][query]'
+            // }
           },
           // 引入 babel-loader 进行 js 转化
           {
@@ -130,7 +136,8 @@ module.exports = {
     }),
     // 用于将 css 代码抽离到单独的 css 文件中
     new MiniCssExtractPlugin({
-      filename: 'static/css/main.css' // 设置输出文件名
+      filename: 'static/css/[name].css', // 设置输出文件名
+      chunkFilename: 'static/css/[name].chunk.css', // 设置 chunk 文件名
     }), 
   ],
   // 优化项
