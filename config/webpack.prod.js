@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const os = require('os')
-const { runtime } = require("webpack")
 
 const threads = os.cpus().length // 获取 CPU 核心数
 
@@ -136,6 +136,13 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'static/css/[name].css', // 设置输出文件名
       chunkFilename: 'static/css/[name].chunk.css', // 设置 chunk 文件名
+    }),
+    // 开启 workbox，生成 service worker 文件，提高 PWA 应用的离线访问体验
+    new WorkboxPlugin.GenerateSW({
+      // 这些选项帮助快速启用 ServiceWorkers
+      // 不允许遗留任何“旧的” ServiceWorkers
+      clientsClaim: true,
+      skipWaiting: true,
     }),
   ],
   // 优化项

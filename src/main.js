@@ -17,3 +17,14 @@ console.log(a)
 if (module.hot) {
   module.hot.accept('./js/sum.js') // 监听文件变化，并自动重新加载模块，只会更新发生指定变化的模块
 }
+
+// 注册 ServiceWorker，使其可以离线缓存
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').then(registration => {
+      console.log('SW registered: ', registration)
+    }).catch(registrationError => {
+      console.log('SW registration failed: ', registrationError)
+    })
+  })
+}
