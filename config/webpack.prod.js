@@ -2,7 +2,7 @@
  * @Author: wanzilin
  * @Date: 2024-06-22 17:52:20
  * @LastEditors: wanzilin
- * @LastEditTime: 2024-06-23 23:42:23
+ * @LastEditTime: 2024-06-23 23:59:41
  * @FilePath: \StudyNotes-Webpack\config\webpack.prod.js
  */
 const path = require("path")
@@ -48,51 +48,56 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/i, // 匹配 css 文件
-        // 使用 style-loader 和 css-loader 加载 css 文件，执行顺序从后往前
-        use: getStyleLoader()
-      },
-      {
-        test: /\.less$/i,
-        use: getStyleLoader('less-loader')
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        use: getStyleLoader('sass-loader')
-      },
-      // 将匹配的资源转化为 base64 编码，并内联到 js 文件中
-      {
-        test: /\.(png|jpe?g|gif|webp|svg)$/i,
-        type: 'asset', // 指定资源类型为 asset/inline，将资源内联到 js 文件中
-        parser: {
-          dataUrlCondition: {
-            maxSize: 4 * 1024 // 小于 4kb 的图片才会转为 base64 编码
-          }
-        },
-        // 设置图片的输出路径及名称
-        generator: {
-          filename: 'static/images/[hash:10][ext][query]'
-        }
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource', // 指定资源类型为 asset/resource，将资源复制到输出目录
-        generator: {
-          filename: 'static/fonts/[hash:10][ext][query]'
-        }
-      },
-      // 引入 babel-loader 进行 js 转化
-      {
-        test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/, // 排除 node_modules 和 bower_components 目录
-        use: {
-          loader: 'babel-loader',
-          // 不建议在这里配置，而是使用 .babelrc 配置文件统一配置
-          // options: {
-          //   presets: ['@babel/preset-env'],
-          // },
-        },
-      },
+        // 使用 oneOf 匹配不同文件类型，一个文件只会使用第一个匹配成功的 loader，而不是全部去尝试一边
+        oneOf: [
+          {
+            test: /\.css$/i, // 匹配 css 文件
+            // 使用 style-loader 和 css-loader 加载 css 文件，执行顺序从后往前
+            use: getStyleLoader()
+          },
+          {
+            test: /\.less$/i,
+            use: getStyleLoader('less-loader')
+          },
+          {
+            test: /\.s[ac]ss$/i,
+            use: getStyleLoader('sass-loader')
+          },
+          // 将匹配的资源转化为 base64 编码，并内联到 js 文件中
+          {
+            test: /\.(png|jpe?g|gif|webp|svg)$/i,
+            type: 'asset', // 指定资源类型为 asset/inline，将资源内联到 js 文件中
+            parser: {
+              dataUrlCondition: {
+                maxSize: 4 * 1024 // 小于 4kb 的图片才会转为 base64 编码
+              }
+            },
+            // 设置图片的输出路径及名称
+            generator: {
+              filename: 'static/images/[hash:10][ext][query]'
+            }
+          },
+          {
+            test: /\.(woff|woff2|eot|ttf|otf)$/i,
+            type: 'asset/resource', // 指定资源类型为 asset/resource，将资源复制到输出目录
+            generator: {
+              filename: 'static/fonts/[hash:10][ext][query]'
+            }
+          },
+          // 引入 babel-loader 进行 js 转化
+          {
+            test: /\.m?js$/,
+            exclude: /(node_modules|bower_components)/, // 排除 node_modules 和 bower_components 目录
+            use: {
+              loader: 'babel-loader',
+              // 不建议在这里配置，而是使用 .babelrc 配置文件统一配置
+              // options: {
+              //   presets: ['@babel/preset-env'],
+              // },
+            },
+          },
+        ]
+      }
     ]
   },
   // 插件
