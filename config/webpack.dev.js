@@ -2,6 +2,7 @@ const path = require("path")
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 function getStyleLoader (pre) {
   return [
@@ -101,7 +102,9 @@ module.exports = {
     // 用于将 css 代码抽离到单独的 css 文件中
     new MiniCssExtractPlugin({
       filename: 'static/css/main.css' // 设置输出文件名
-    })
+    }), 
+    // 压缩 css 文件
+    new CssMinimizerPlugin(),
   ],
   // 模式
   mode: 'development',

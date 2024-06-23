@@ -2,13 +2,14 @@
  * @Author: wanzilin
  * @Date: 2024-06-22 17:52:20
  * @LastEditors: wanzilin
- * @LastEditTime: 2024-06-23 23:26:12
+ * @LastEditTime: 2024-06-23 23:32:02
  * @FilePath: \StudyNotes-Webpack\config\webpack.prod.js
  */
 const path = require("path")
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 function getStyleLoader (pre) {
   return [
@@ -105,7 +106,9 @@ module.exports = {
     // 提取 css 文件到单独的 css 文件中
     new MiniCssExtractPlugin({
       filename: "static/css/main.css"
-    })
+    }),
+    // 压缩 css 文件
+    new CssMinimizerPlugin(),
   ],
   // 模式
   mode: 'production',
