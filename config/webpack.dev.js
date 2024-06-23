@@ -108,6 +108,8 @@ module.exports = {
   ],
   // 模式
   mode: 'development',
+  // 开启 source-map，方便调试，使用 cheap-module-source-map 优化打包速度，只进行行映射
+  devtool: "cheap-module-source-map",
   // 开发服务器配置，开启后没有 dist 文件夹，而是实时编译打包
   devServer: {
     host: 'localhost',

@@ -2,7 +2,7 @@
  * @Author: wanzilin
  * @Date: 2024-06-22 17:52:20
  * @LastEditors: wanzilin
- * @LastEditTime: 2024-06-23 23:32:02
+ * @LastEditTime: 2024-06-23 23:42:23
  * @FilePath: \StudyNotes-Webpack\config\webpack.prod.js
  */
 const path = require("path")
@@ -112,6 +112,8 @@ module.exports = {
   ],
   // 模式
   mode: 'production',
+  // 开启 source-map，方便调试，使用 source-map 模式，增加行列的映射（由于打包后会进行压缩，所以需要进行列映射），会增加打包后的文件大小
+  devtool: 'source-map',
   // 开发服务器配置，开启后没有 dist 文件夹，而是实时编译打包
   // 生产模式下不需要 devServer
   // devServer: {
