@@ -103,7 +103,10 @@ module.exports = {
   // 插件
   plugins: [
     // 开启 eslint 校验，检查 src 目录下的文件
-    new ESLintPlugin({ context: path.resolve(__dirname, '../src') }),
+    new ESLintPlugin({
+      context: path.resolve(__dirname, '../src'),
+      exclude: ['node_modules', 'bower_components'], // 排除 node_modules 和 bower_components 目录
+    }),
     // 自动生成 index.html 文件，并自动引入打包后的 js 文件，并将 css 文件内联到 head 标签中
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'), // 指定模板文件路径
