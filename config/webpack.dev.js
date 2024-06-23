@@ -1,6 +1,7 @@
 const path = require("path")
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   // 入口
@@ -22,14 +23,16 @@ module.exports = {
         test: /\.css$/i, // 匹配 css 文件
         // 使用 style-loader 和 css-loader 加载 css 文件，执行顺序从后往前
         use: [
-          'style-loader', // 将 css 代码注入到 style 标签中
+          // 'style-loader', // 将 css 代码注入到 style 标签中
+          MiniCssExtractPlugin.loader, // 将 css 代码抽离到单独的 css 文件中
           'css-loader' // 将 css 文件转化成 commonjs 模块打包到 js 中
         ],
       },
       {
         test: /\.less$/i,
         use: [
-          'style-loader',
+          // 'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           // 将 Less 编译成 CSS
           'less-loader',
@@ -38,7 +41,8 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          'style-loader',
+          // 'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           // 将 Sass 编译成 CSS
           'sass-loader',
@@ -88,6 +92,10 @@ module.exports = {
     // 这里使用 resolve 解析到 public 目录时需要 ../
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'), // 指定模板文件路径
+    }),
+    // 用于将 css 代码抽离到单独的 css 文件中
+    new MiniCssExtractPlugin({
+      filename: 'static/css/main.css' // 设置输出文件名
     })
   ],
   // 模式

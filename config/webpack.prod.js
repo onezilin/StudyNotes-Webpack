@@ -2,12 +2,13 @@
  * @Author: wanzilin
  * @Date: 2024-06-22 17:52:20
  * @LastEditors: wanzilin
- * @LastEditTime: 2024-06-23 00:12:35
+ * @LastEditTime: 2024-06-23 00:24:46
  * @FilePath: \StudyNotes-Webpack\config\webpack.prod.js
  */
 const path = require("path")
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   // 入口
@@ -28,14 +29,16 @@ module.exports = {
         test: /\.css$/i, // 匹配 css 文件
         // 使用 style-loader 和 css-loader 加载 css 文件，执行顺序从后往前
         use: [
-          'style-loader', // 将 css 代码注入到 style 标签中
+          // 'style-loader', // 将 css 代码注入到 style 标签中
+          MiniCssExtractPlugin.loader, // 将 css 代码提取到单独的 css 文件中
           'css-loader' // 将 css 文件转化成 commonjs 模块打包到 js 中
         ],
       },
       {
         test: /\.less$/i,
         use: [
-          'style-loader',
+          // 'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           // 将 Less 编译成 CSS
           'less-loader',
@@ -45,6 +48,7 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: [
           'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           // 将 Sass 编译成 CSS
           'sass-loader',
@@ -92,6 +96,10 @@ module.exports = {
     // 自动生成 index.html 文件，并自动引入打包后的 js 文件，并将 css 文件内联到 head 标签中
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'), // 指定模板文件路径
+    }),
+    // 提取 css 文件到单独的 css 文件中
+    new MiniCssExtractPlugin({
+      filename: "static/css/main.css"
     })
   ],
   // 模式
