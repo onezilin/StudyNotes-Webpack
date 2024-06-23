@@ -3,6 +3,10 @@ const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin')
+const os = require('os')
+
+const threads = os.cpus().length // 获取 CPU 核心数
 
 function getStyleLoader (pre) {
   return [
@@ -82,18 +86,27 @@ module.exports = {
           {
             test: /\.m?js$/,
             exclude: /(node_modules|bower_components)/, // 排除 node_modules 和 bower_components 目录
-            use: {
-              loader: 'babel-loader',
-              // 不建议在这里配置，而是使用 .babelrc 配置文件统一配置
-              options: {
-                // presets: ['@babel/preset-env'],
-                // 开启缓存后，babel-loader 会将缓存文件放到 node_modules/.cache/babel-loader/ 目录下，下次编译时会优先读取缓存文件，加快打包速度
-                // 缓存文件会在每次编译前检查是否有缓存，如果有缓存，则直接读取缓存文件，否则重新编译，并将编译后的文件缓存到缓存文件中
-                // 缓存文件会根据文件内容的哈希值生成，如果文件内容有变化，则哈希值也会变化，缓存文件也会重新生成
-                cacheDirectory: true,
-                cacheCompression: false, // 缓存压缩，默认 false，缓存文件不会被压缩，可以加快读取速度，但是会增加文件体积
+            use: [
+              // 使用 thread-loader 开启多线程编译，加快打包速度
+              {
+                loader: 'thread-loader',
+                options: {
+                  workers: threads // 指定线程数，默认是 CPU 核心数
+                }
               },
-            },
+              {
+                loader: 'babel-loader',
+                // 不建议在这里配置，而是使用 .babelrc 配置文件统一配置
+                options: {
+                  // presets: ['@babel/preset-env'],
+                  // 开启缓存后，babel-loader 会将缓存文件放到 node_modules/.cache/babel-loader/ 目录下，下次编译时会优先读取缓存文件，加快打包速度
+                  // 缓存文件会在每次编译前检查是否有缓存，如果有缓存，则直接读取缓存文件，否则重新编译，并将编译后的文件缓存到缓存文件中
+                  // 缓存文件会根据文件内容的哈希值生成，如果文件内容有变化，则哈希值也会变化，缓存文件也会重新生成
+                  cacheDirectory: true,
+                  cacheCompression: false, // 缓存压缩，默认 false，缓存文件不会被压缩，可以加快读取速度，但是会增加文件体积
+                },
+              },
+            ]
           },
         ]
       }
@@ -108,6 +121,7 @@ module.exports = {
       exclude: ['node_modules', 'bower_components'], // 排除 node_modules 和 bower_components 目录
       cache: true, // 开启缓存，加快 eslint 校验速度
       cacheLocation: path.resolve(__dirname, '../node_modules/.cache/eslint'), // 缓存文件路径
+      threads: threads // 开启多线程，指定线程数，默认是 CPU 核心数
     }),
     // 自动生成 index.html 文件，并自动引入打包后的 js 文件，并将 css 文件内联到 head 标签中
     // 这里使用 resolve 解析到 public 目录时需要 ../
@@ -118,9 +132,20 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'static/css/main.css' // 设置输出文件名
     }), 
-    // 压缩 css 文件
-    new CssMinimizerPlugin(),
   ],
+  // 优化项
+  optimization: {
+    // 压缩 js 文件
+    minimize: true,
+    minimizer: [
+      // 压缩 css 文件
+      new CssMinimizerPlugin(),
+      // 压缩 js 文件
+      new TerserWebpackPlugin({
+        parallel: true, // 开启多线程压缩，加快压缩速度
+      }),
+    ]
+  },
   // 模式
   mode: 'development',
   // 开启 source-map，方便调试，使用 cheap-module-source-map 优化打包速度，只进行行映射

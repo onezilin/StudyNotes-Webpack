@@ -33,6 +33,7 @@
     "sass": "^1.77.6",
     "sass-loader": "^14.2.1",
     "style-loader": "^4.0.0",
+    "thread-loader": "^4.0.2",
     "webpack-dev-server": "^4.15.1"
   },
   "browserslist": [
