@@ -175,6 +175,11 @@ module.exports = {
       //   },
       // },
     },
+    // 运行时代码分割，将入口文件中引用的模块分割到单独的 bundle 中，防止引入的模块改动导致重新打包整个入口文件
+    // 注意：runtimeChunk 选项必须与 splitChunks 选项一起使用
+    runtimeChunk: {
+      name: (entrypoint) => `runtime~${entrypoint.name}`
+    }
   },
   // 模式
   mode: 'development',
