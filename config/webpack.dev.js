@@ -25,7 +25,18 @@ module.exports = {
         use: [
           // 'style-loader', // 将 css 代码注入到 style 标签中
           MiniCssExtractPlugin.loader, // 将 css 代码抽离到单独的 css 文件中
-          'css-loader' // 将 css 文件转化成 commonjs 模块打包到 js 中
+          'css-loader', // 将 css 文件转化成 commonjs 模块打包到 js 中
+          // 使用 postcss-loader 自动添加浏览器前缀，解决浏览器兼容问题
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  "postcss-preset-env" // 自动添加浏览器前缀
+                ]
+              }
+            }
+          },
         ],
       },
       {
@@ -34,6 +45,17 @@ module.exports = {
           // 'style-loader',
           MiniCssExtractPlugin.loader,
           'css-loader',
+          // 使用 postcss-loader 自动添加浏览器前缀，解决浏览器兼容问题
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  "postcss-preset-env" // 自动添加浏览器前缀
+                ]
+              }
+            }
+          },
           // 将 Less 编译成 CSS
           'less-loader',
         ],
@@ -44,6 +66,17 @@ module.exports = {
           // 'style-loader',
           MiniCssExtractPlugin.loader,
           'css-loader',
+          // 使用 postcss-loader 自动添加浏览器前缀，解决浏览器兼容问题
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  "postcss-preset-env" // 自动添加浏览器前缀
+                ]
+              }
+            }
+          },
           // 将 Sass 编译成 CSS
           'sass-loader',
         ],
