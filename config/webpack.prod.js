@@ -190,6 +190,15 @@ module.exports = {
   mode: 'production',
   // 开启 source-map，方便调试，使用 source-map 模式，增加行列的映射（由于打包后会进行压缩，所以需要进行列映射），会增加打包后的文件大小
   devtool: 'source-map',
+  // 模块解析
+  resolve: {
+    // 自动解析文件扩展名，即省略文件扩展名时，webpack 会自动添加
+    extensions: ['.js', '.vue', '.json'],
+    // 为模块路径设置别名
+    alias: {
+      '@': path.resolve(__dirname, '../src'), // 设置别名，@ 代表 src 目录
+    }
+  },
   // 开发服务器配置，开启后没有 dist 文件夹，而是实时编译打包
   // 生产模式下不需要 devServer
   // devServer: {

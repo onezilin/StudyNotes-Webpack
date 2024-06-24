@@ -185,6 +185,15 @@ module.exports = {
   mode: 'development',
   // 开启 source-map，方便调试，使用 cheap-module-source-map 优化打包速度，只进行行映射
   devtool: "cheap-module-source-map",
+  // 模块解析
+  resolve: {
+    // 自动解析文件扩展名，即省略文件扩展名时，webpack 会自动添加
+    extensions: ['.js', '.vue', '.json'],
+    // 为模块路径设置别名
+    alias: {
+      '@': path.resolve(__dirname, '../src'), // 设置别名，@ 代表 src 目录
+    }
+  },
   // 开发服务器配置，开启后没有 dist 文件夹，而是实时编译打包
   devServer: {
     host: 'localhost',
