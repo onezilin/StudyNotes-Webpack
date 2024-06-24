@@ -1,3 +1,10 @@
+/*
+ * @Author: wanzilin
+ * @Date: 2024-06-21 17:26:16
+ * @LastEditors: wanzilin
+ * @LastEditTime: 2024-06-24 10:46:19
+ * @FilePath: \StudyNotes-Webpack\src\main.js
+ */
 import count from "./js/count"
 import sum from "./js/sum"
 import './css/index.css'
@@ -28,3 +35,7 @@ if ('serviceWorker' in navigator) {
     })
   })
 }
+
+// 使用 cross-env 跨平台设置环境变量
+const env = process.env.NODE_ENV
+console.log(env)
