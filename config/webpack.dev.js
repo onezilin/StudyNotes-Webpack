@@ -200,5 +200,6 @@ module.exports = {
     port: 3000,
     open: true, // 自动打开浏览器
     hot: true, // 开启热更新
+    historyApiFallback: true, // 解决 vue-router history 模式下刷新页面404的问题，即所有 404 响应都返回dist/index.html
   }
 }
