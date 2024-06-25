@@ -192,6 +192,9 @@ module.exports = {
     // 为模块路径设置别名
     alias: {
       '@': path.resolve(__dirname, '../src'), // 设置别名，@ 代表 src 目录
+    },
+    fallback: {
+      "path": require.resolve("path-browserify")
     }
   },
   // 开发服务器配置，开启后没有 dist 文件夹，而是实时编译打包

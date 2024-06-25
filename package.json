@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "path-browserify": "^1.0.1",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
   },

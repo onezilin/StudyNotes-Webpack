@@ -1,16 +1,12 @@
-/*
- * @Author: wanzilin
- * @Date: 2024-06-21 17:26:16
- * @LastEditors: wanzilin
- * @LastEditTime: 2024-06-24 10:46:19
- * @FilePath: \StudyNotes-Webpack\src\main.js
- */
 import count from "./js/count"
 import sum from "./js/sum"
 import './css/index.css'
 import './css/iconfont.css'
 import './less/index.less'
 import './scss/index.scss'
+import path from "path"
+
+console.log(path.resolve(__dirname, '../', undefined || 'config'))
 
 console.log(count(2, 1))
 console.log(sum(1, 2, 3, 4))
